@@ -27,8 +27,6 @@ const validBraces = (braces) => {
   return arraysAreEquals(firstHalf, lastHalf)
 }
 
-validBraces('[({})]')
-
 export {
   validBraces
 }
