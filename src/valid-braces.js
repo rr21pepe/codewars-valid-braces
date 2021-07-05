@@ -1,40 +1,32 @@
-import {
-  arraysAreEquals,
-  compose,
-  reverse,
-  slice,
-  splitStringToArray,
-  getOpenBrace,
-  areConsecutiveBraces
-} from './utils'
+const validBraces = braces => {
+  const acc = []
+  const pairedBraces = {
+    '(': ')',
+    '{': '}',
+    '[': ']'
+  }
 
-const transformToOpenBraces = braces => braces.map(getOpenBrace)
+  const areWellClosed = braces
+    .split('')
+    .map(brace => {
+      if (pairedBraces[brace]) {
+        acc.push(brace)
 
-const validBraces = (braces) => {
-  const { length } = braces
-  
-  if (length % 2 !== 0) return false
+        return true
+      }
 
-  const firstHalf = compose(
-    slice(0, length / 2),
-    splitStringToArray
-  )(braces)
+      if (pairedBraces[acc.pop()] === brace) {
+        return true
+      }
 
-  const lastHalf = compose(
-    transformToOpenBraces,
-    reverse,
-    slice(length / 2, length),
-    splitStringToArray
-  )(braces)
+      return false
+    })
 
-  if (arraysAreEquals(firstHalf, lastHalf)) return true
+  const areValidBraces = (
+    acc.length === 0 && areWellClosed.every(isWellClosed => isWellClosed)
+  )
 
-  const areCorrectlyPairedConsecutively = compose(
-    areConsecutiveBraces,
-    splitStringToArray
-  )(braces)
-
-  return areCorrectlyPairedConsecutively
+  return areValidBraces
 }
 
 export {
