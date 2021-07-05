@@ -4,8 +4,11 @@ import {
   reverse,
   slice,
   splitStringToArray,
-  transformToOpenBraces
+  getOpenBrace,
+  areConsecutiveBraces
 } from './utils'
+
+const transformToOpenBraces = braces => braces.map(getOpenBrace)
 
 const validBraces = (braces) => {
   const { length } = braces
@@ -24,7 +27,14 @@ const validBraces = (braces) => {
     splitStringToArray
   )(braces)
 
-  return arraysAreEquals(firstHalf, lastHalf)
+  if (arraysAreEquals(firstHalf, lastHalf)) return true
+
+  const areCorrectlyPairedConsecutively = compose(
+    areConsecutiveBraces,
+    splitStringToArray
+  )(braces)
+
+  return areCorrectlyPairedConsecutively
 }
 
 export {

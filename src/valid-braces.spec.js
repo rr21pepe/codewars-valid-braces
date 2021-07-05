@@ -9,7 +9,7 @@ describe('Testing validBraces', function() {
 
   it('Passing a wrong closed braces should return false', function() {
     const testCases = [
-      '(}', '(]', '{)', '{]', '[)', '[}', '[{]}', '({[]}]', '[{]}'
+      '(}', '(]', '{)', '{]', '[)', '[}', '[{]}', '({[]}]', '[{]}', '()[]{{'
     ]
 
     testCases.forEach(testCase => expect(validBraces(testCase)).toBe(false))
@@ -18,6 +18,14 @@ describe('Testing validBraces', function() {
   it('Passing a well closed braces should return true', function() {
     const testCases = [
       '()', '[]', '{}', '({})', '{([])}', '[({{}})]', '{([[]])}'
+    ]
+
+    testCases.forEach(testCase => expect(validBraces(testCase)).toBe(true))
+  })
+
+  it('Padding a consecutive paired braces return true', function() {
+    const testCases = [
+      '(){}[]', '(){}()[]{}', '{}[]{}()', '[]{}()'
     ]
 
     testCases.forEach(testCase => expect(validBraces(testCase)).toBe(true))
