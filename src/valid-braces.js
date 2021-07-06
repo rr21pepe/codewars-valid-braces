@@ -1,32 +1,25 @@
 const validBraces = braces => {
-  const acc = []
-  const pairedBraces = {
+  const bracesToClose = []
+  const validBraces = {
     '(': ')',
     '{': '}',
     '[': ']'
   }
 
-  const areWellClosed = braces
-    .split('')
-    .map(brace => {
-      if (pairedBraces[brace]) {
-        acc.push(brace)
+  for(let i = 0; i < braces.length; i++) {
+    const current = braces[i]
 
-        return true
-      }
+    if (validBraces[current]) {
+      bracesToClose.push(current)
+      continue
+    }
 
-      if (pairedBraces[acc.pop()] === brace) {
-        return true
-      }
-
+    if (current !== validBraces[bracesToClose.pop()]) {
       return false
-    })
+    }
+  }
 
-  const areValidBraces = (
-    acc.length === 0 && areWellClosed.every(isWellClosed => isWellClosed)
-  )
-
-  return areValidBraces
+  return bracesToClose.length === 0
 }
 
 export {
